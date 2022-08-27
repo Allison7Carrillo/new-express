@@ -1,0 +1,17 @@
+<h1>Solicitudes recibidas</h1>
+
+{{#if datos}}
+    <p>Alumnos registrados:</p>
+    <ul>
+    {{#each datos.alumnos}}
+        <li>{{codigo}} {{nombre}} {{ap}} {{am}}</li>
+
+        {{#if ../solicitudes}}
+            {{#each ../solicitudes}}
+                {{detalle}}
+            {{each}}
+
+        {{/if}}
+    {{/each}}
+    </ul>
+{{/if}}
