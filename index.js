@@ -1,5 +1,6 @@
 import express from 'express'
 import {engine} from 'express-handlebars'
+import { getFrase, getFrasesAnime, getFrasesAunasi } from './lib/frases.js'
 
 
 
@@ -13,22 +14,40 @@ app.set('views','./views')
 
 app.use(express.static('public'))
 
-const frases= [
-    "No hay vida que merezca la muerte -Goblin",
-    "Quien quiera llevar la corona debe soportar su peso -Herederos",
-    "Realmente no le puedes ganar a alguien que insiste en discutir  -Herederos",
-    "Tu mejor fuente de protección no es un arma o una espada. Es tu cerebro, no lo olvides. -Vincenzo"
-]
-
-
 app.get('/',(req,res)=>{
     res.render('home')
 })
-app.get('/about',(req,res)=>{
-    let fraseAleatoria= frases[Math.floor(Math.random()*frases.length)]
-    res.render('about', {frase:fraseAleatoria})
+app.get('/frases', (req, res)=>{
+    res.render('about',{frase:getFrase()})
 })
 
+app.get('/anime', (req, res)=>{
+    res.render('about', {frase:getFrasesAnime()})
+})
+app.get('/aunasi', (req, res)=>{
+    res.render('about', {frase:getFrasesAunasi()})
+})
+
+app.get('/headers', (req, res)=>{
+    res.type('text/plain')
+    const headers= Object.entries(req.headers).map(([key, value])=> `${key}: ${value}`)
+    res.send(headers.join('\n'))
+})
+
+app.get('/bloques',(req,res)=>{
+    let datos= {
+        alumnos:[
+            {ap:"Carrillo", am:"Acosta", nombre:"Allison", codigo:217747},
+            {ap:"Jackson", am:"Scruce", nombre:"Michael", codigo:217746},
+            {ap:"Minato", am:"Uzumaki", nombre:"Naruto", codigo:217745}
+        ],
+
+        solicitudes: [
+            {codigo:123, detalle:"Quiero dar de baja una materia"}
+        ]
+    }
+    res.render(`solicitudes`, {datos:datos})
+})
 
 app.use((req,res)=>{
     res.status(404)
