@@ -3,20 +3,27 @@ import {engine} from 'express-handlebars'
 import { getFrase, getFrasesAnime, getFrasesAunasi } from './lib/frases.js'
 
 
-
 const app= express()
 const port= process.env.port || 3000
+
 
 app.engine('handlebars', engine())
 
 app.set('view engine', 'handlebars')
 app.set('views','./views')
-
+app.disable('x.powered-by')
 app.use(express.static('public'))
+
+
 
 app.get('/',(req,res)=>{
     res.render('home')
 })
+
+app.get('/',(req,res)=>{
+    res.render('home')
+})
+
 app.get('/frases', (req, res)=>{
     res.render('about',{frase:getFrase()})
 })
